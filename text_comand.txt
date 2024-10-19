@@ -1,0 +1,16 @@
+push 0
+pop_ax
+rgstprush
+rgstprush
+dumb
+multiplication
+out
+rgstprush
+push 1
+adition
+pop_ax
+rgstprush
+push 10
+jb
+dumb
+hlt
