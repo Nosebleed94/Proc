@@ -6,35 +6,67 @@
 #include <math.h>
 
 #include "assembler.h"
-#include "processor.h"
 #include "debug.h"
 
+const size_t label_size = 10;
 const char file_name[] = {"text_comand.txt"};
 const char translate[] = {"translation.txt"};
 
-int main(){
-
+int main()
+{
+    size_t label_number = 0;
+    struct label_t label[label_size] = {};
     FILE* file_text = fopen (file_name,"r");
+
     assert(file_text && "file open err");
 
     size_t num_s = sum_symbols (file_text);
-    char* buffer = (char*)calloc(num_s + 1, sizeof(char));
-    assert (buffer != NULL);
+    char* text_commad_in_array = (char*)calloc(num_s + 1, sizeof(char));
+
+    assert (text_commad_in_array != NULL);
    
     size_t quentity_cells = 0;
-    quentity_cells = QuannityCells (buffer, file_text, num_s);
-    int* arr = (int*)calloc(quentity_cells, sizeof(int));
+    quentity_cells = QuannityCells (text_commad_in_array, file_text, num_s);
+    printf ("quentity_cells = [%ld]", quentity_cells);
+    quentity_cells = quentity_cells;
+    int* command_array = (int*)calloc(quentity_cells, sizeof(int));
+
     assert (quentity_cells != NULL);
 
-    DEBUG_PRINT("\n quentity cells is {%ld}\n", quentity_cells); 
+    DEBUG_PRINT ("\n quentity cells is {%ld}\n", quentity_cells); 
 
-    translation (arr, buffer, quentity_cells);
-
-    for (int p = 0; p <quentity_cells; p++){
-        fprintf(stderr,"arr[%d] = [%d]\n", p, arr[p]);
+    for (int p = 0; p < quentity_cells; p++)
+    {
+        fprintf(stderr," command_array[%d] = [%d]\n", p, command_array[p]);
     }
 
-    FILE* assembler = fopen (translate, "w");
-    fwrite (arr, sizeof (arr[0]), quentity_cells, assembler);
+    translation (command_array, text_commad_in_array, quentity_cells, label);
 
+    for (int p = 0; p < quentity_cells; p++)
+    {
+        fprintf (stderr," command_array[%d] = [%d]\n", p, command_array[p]);
+    }
+
+    for (int k = 0; k < 10; k++)
+    {
+        fprintf (stderr,"label after translation is [%s]\n\n", label[k].label);
+    }
+
+    translation (command_array, text_commad_in_array, quentity_cells, label);
+
+    for (int k = 0; k < 10; k++)
+    {
+        fprintf (stderr,"label after translation is [%s]\n\n", label[k].label);
+    }
+
+    for (int p = 0; p < quentity_cells; p++)
+    {
+        fprintf (stderr," command_array[%d] = [%d]\n", p, command_array[p]);
+    }
+
+    FILE* assembler = fopen (translate, "wb");
+    fwrite (command_array, sizeof (command_array[0]), quentity_cells, assembler);
+
+    free (command_array);
+    free (text_commad_in_array);
 }

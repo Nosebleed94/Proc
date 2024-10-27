@@ -1,8 +1,8 @@
 push 0
 pop_ax
+next:
 rgstprush
 rgstprush
-dumb
 multiplication
 out
 rgstprush
@@ -11,6 +11,5 @@ adition
 pop_ax
 rgstprush
 push 10
-jb
-dumb
+jb next:
 hlt

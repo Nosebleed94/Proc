@@ -5,29 +5,29 @@
 #include <assert.h>
 #include <math.h>
 
-#include "assembler.h"
 #include "processor.h"
 #include "debug.h"
-#include "stack.h"
 
 const char translate[] = "translation.txt";
 
-int main(){
-
+int main()
+{
     FILE* assembler = fopen(translate, "r");
-    assert(assembler && "file open err");
+
+    assert (assembler && "file open err");
 
     size_t quentity_cells = 0;
     fseek(assembler, 0, SEEK_END);
     quentity_cells = ftell(assembler) / sizeof(int);
     fseek(assembler, 0, SEEK_SET);
 
-    int* arr = (int*)calloc(quentity_cells, sizeof(int));
-    assert(arr != NULL);
+    int* command_array = (int*)calloc(quentity_cells, sizeof(int));
 
-    fread(arr, sizeof(int), quentity_cells, assembler);
+    assert (command_array != NULL);
 
-    Letsgo(arr, quentity_cells);
+    fread(command_array, sizeof(int), quentity_cells, assembler);
+
+    Letsgo (command_array, quentity_cells);
 
     fclose(assembler);
 }
