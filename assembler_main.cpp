@@ -69,4 +69,6 @@ int main()
 
     free (command_array);
     free (text_commad_in_array);
+    fclose(file_text);
+    fclose (assembler);
 }
